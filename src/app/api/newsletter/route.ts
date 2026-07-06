@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import MailerLite from "@mailerlite/mailerlite-nodejs";
 
+export const runtime = "edge";
+
 export async function POST(request: Request) {
   try {
     const { email, name } = await request.json();
