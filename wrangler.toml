@@ -1,0 +1,11 @@
+name = "bcl-website"
+main = "src/worker.ts"
+compatibility_date = "2025-01-01"
+
+[vars]
+CONTACT_TO_EMAIL = "bethconsultingltd@gmail.com"
+RESEND_FROM_EMAIL = "no-reply@bethconsultingltd.com"
+
+[env.production.vars]
+CONTACT_TO_EMAIL = "bethconsultingltd@gmail.com"
+RESEND_FROM_EMAIL = "no-reply@bethconsultingltd.com"

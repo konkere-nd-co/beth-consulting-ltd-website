@@ -48,15 +48,18 @@ export function ContactForm() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: name.trim(),
-          email: email.trim(),
-          message: message.trim(),
-        }),
-      });
+      const response = await fetch(
+        "https://bcl-website.oladeleomoyemi2002.workers.dev/api/contact",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: name.trim(),
+            email: email.trim(),
+            message: message.trim(),
+          }),
+        },
+      );
 
       const data = await response.json();
 

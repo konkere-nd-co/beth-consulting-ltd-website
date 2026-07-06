@@ -27,11 +27,14 @@ export function NewsletterForm() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("/api/newsletter", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.trim(), name: name.trim() }),
-      });
+      const response = await fetch(
+        "https://bcl-website.oladeleomoyemi2002.workers.dev/api/newsletter",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: email.trim(), name: name.trim() }),
+        },
+      );
 
       const data = await response.json();
 
