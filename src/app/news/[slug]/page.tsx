@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { GoogleFormModal } from '../../../components/GoogleFormModal';
 
+export const runtime = 'edge';
+
 export default function NewsDetailPage() {
   const params = useParams();
   const router = useRouter();
