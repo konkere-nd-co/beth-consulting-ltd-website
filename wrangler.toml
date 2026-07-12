@@ -9,3 +9,13 @@ RESEND_FROM_EMAIL = "no-reply@bethconsultingltd.com"
 [env.production.vars]
 CONTACT_TO_EMAIL = "bethconsultingltd@gmail.com"
 RESEND_FROM_EMAIL = "no-reply@bethconsultingltd.com"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "bcl-news-db"
+database_id = "625062a5-a542-41cb-863b-c2e749dc71d6"
+migrations_dir = "migrations"
+
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "bcl-news-images"
