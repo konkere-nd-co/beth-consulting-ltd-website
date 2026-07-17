@@ -41,19 +41,19 @@ export default function NewsPage() {
                 const isExternal = !!item.external_link;
                 
                 return (
-                  <article key={item.slug} className="news-card" style={!item.image_url ? { display: 'flex', alignItems: 'center' } : undefined}>
-                    {item.image_url && <img src={item.image_url} alt={item.image_alt || item.title} />}
-                    <div className="body">
-                      {item.kicker && <p className="kicker">{item.kicker}</p>}
-                      <h3>{item.title}</h3>
-                      <p>{item.summary}</p>
-                      {isExternal ? (
-                        <a href={linkHref} target="_blank" rel="noreferrer">{item.read_more_text || 'Read more →'}</a>
-                      ) : (
-                        <Link href={linkHref}>{item.read_more_text || 'Read more →'}</Link>
-                      )}
-                    </div>
-                  </article>
+              <article key={item.slug} className="news-card" style={!item.image_url ? { display: 'flex', alignItems: 'center' } : undefined}>
+                {item.image_url && <img src={item.image_url.startsWith('http') || item.image_url.startsWith('/') ? item.image_url : `/${item.image_url}`} alt={item.image_alt || item.title} />}
+                <div className="body">
+                  {item.kicker && <p className="kicker">{item.kicker}</p>}
+                  <h3>{item.title}</h3>
+                  <p>{item.summary}</p>
+                  {isExternal ? (
+                    <a href={linkHref} target="_blank" rel="noreferrer">{item.read_more_text || 'Read more →'}</a>
+                  ) : (
+                    <Link href={linkHref}>{item.read_more_text || 'Read more →'}</Link>
+                  )}
+                </div>
+              </article>
                 );
               })
             ) : (

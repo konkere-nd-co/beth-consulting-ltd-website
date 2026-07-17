@@ -324,7 +324,7 @@ export function AdminNewsForm({ initialData = null }: { initialData?: any }) {
               />
             </div>
             <div>
-              <label style={labelStyle}>Google Form Apply Link</label>
+              <label style={labelStyle}>Google Form Apply Link (Optional)</label>
               <input
                 type="text"
                 value={mentorship.apply_link}
@@ -440,7 +440,7 @@ export function AdminNewsForm({ initialData = null }: { initialData?: any }) {
           >
             <div>
               <label style={labelStyle}>
-                Who is this for? (Comma separated)
+                Who is this for? (Comma separated) (Optional)
               </label>
               <textarea
                 value={mentorship.who_is_it_for}
@@ -456,7 +456,7 @@ export function AdminNewsForm({ initialData = null }: { initialData?: any }) {
             </div>
             <div>
               <label style={labelStyle}>
-                What you'll get? (Comma separated)
+                What you'll get? (Comma separated) (Optional)
               </label>
               <textarea
                 value={mentorship.what_you_will_get}
