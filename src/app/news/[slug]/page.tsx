@@ -49,6 +49,12 @@ export default function NewsDetailPage() {
     return str;
   };
 
+  const getImageUrl = (url: string) => {
+    if (!url) return '';
+    if (url.startsWith('http')) return url;
+    return url.startsWith('/') ? url : `/${url}`;
+  };
+
   if (item.type === 'mentorship') {
     let mentorship = { dates_tag: '', status_text: '', apply_link: '', weeks: [], who_is_it_for: '', what_you_will_get: '' };
     try {
@@ -97,7 +103,7 @@ export default function NewsDetailPage() {
             </div>
             {item.image_url && (
               <div className="hero-portrait" style={{ maxWidth: '460px' }}>
-                <img src={item.image_url.startsWith('http') || item.image_url.startsWith('/') ? item.image_url : `/${item.image_url}`} alt={item.image_alt || item.title} style={{ width: '100%', height: 'auto', borderRadius: '18px', aspectRatio: 'auto' }} />
+                <img src={getImageUrl(item.image_url)} alt={item.image_alt || item.title} style={{ width: '100%', height: 'auto', borderRadius: '18px', aspectRatio: 'auto' }} />
               </div>
             )}
           </div>
@@ -172,7 +178,7 @@ export default function NewsDetailPage() {
       <section className="section section--white in-view">
         <div className="container" style={{ maxWidth: '820px' }}>
           {item.image_url && (
-            <img src={item.image_url.startsWith('http') || item.image_url.startsWith('/') ? item.image_url : `/${item.image_url}`} alt={item.image_alt || item.title} style={{ width: '100%', height: 'auto', borderRadius: '20px', boxShadow: 'var(--shadow)', marginBottom: '2.5rem' }} />
+            <img src={getImageUrl(item.image_url)} alt={item.image_alt || item.title} style={{ width: '100%', height: 'auto', borderRadius: '20px', boxShadow: 'var(--shadow)', marginBottom: '2.5rem' }} />
           )}
           
           <div className="article-body" dangerouslySetInnerHTML={{ __html: cleanHtml(item.body_content) }} />
