@@ -35,6 +35,20 @@ export default function NewsDetailPage() {
     return <main id="main"><div style={{ padding: '100px 20px', textAlign: 'center' }}>Loading...</div></main>;
   }
 
+  const cleanHtml = (html: string) => {
+    if (!html) return '';
+    let str = html.replace(/&nbsp;/g, ' ');
+    // Fix missing http in hrefs, like href="www.google.com" -> href="https://www.google.com"
+    str = str.replace(/href="([^"]+)"/g, (match, p1) => {
+      const url = p1.trim();
+      if (url && !url.startsWith('http://') && !url.startsWith('https://') && !url.startsWith('/') && !url.startsWith('#') && !url.startsWith('mailto:')) {
+        return `href="https://${url}"`;
+      }
+      return match;
+    });
+    return str;
+  };
+
   if (item.type === 'mentorship') {
     let mentorship = { dates_tag: '', status_text: '', apply_link: '', weeks: [], who_is_it_for: '', what_you_will_get: '' };
     try {
@@ -75,13 +89,15 @@ export default function NewsDetailPage() {
               <p className="lead">{item.summary || "No Summary Provided"}</p>
               {mentorship.dates_tag && <p><span className="tag">{mentorship.dates_tag}</span></p>}
               {mentorship.status_text && <p style={{ color: 'var(--muted)' }}>{mentorship.status_text}</p>}
-              <div className="btn-row">
-                <button onClick={() => setIsModalOpen(true)} className="btn btn-primary">Apply</button>
-              </div>
+              {mentorship.apply_link && (
+                <div className="btn-row">
+                  <button onClick={() => setIsModalOpen(true)} className="btn btn-primary">Apply</button>
+                </div>
+              )}
             </div>
             {item.image_url && (
               <div className="hero-portrait" style={{ maxWidth: '460px' }}>
-                <img src={item.image_url} alt={item.image_alt || item.title} style={{ borderRadius: '18px', aspectRatio: 'auto' }} />
+                <img src={item.image_url.startsWith('http') || item.image_url.startsWith('/') ? item.image_url : `/${item.image_url}`} alt={item.image_alt || item.title} style={{ width: '100%', height: 'auto', borderRadius: '18px', aspectRatio: 'auto' }} />
               </div>
             )}
           </div>
@@ -89,9 +105,9 @@ export default function NewsDetailPage() {
 
         <section className="section section--white in-view">
           <div className="container" style={{ maxWidth: '820px' }}>
-            <div dangerouslySetInnerHTML={{ __html: (item.body_content || '').replace(/&nbsp;/g, ' ') }} />
+            <div className="article-body" dangerouslySetInnerHTML={{ __html: cleanHtml(item.body_content) }} />
             
-            {mentorship.weeks && mentorship.weeks.length > 0 && (
+            {mentorship.weeks && mentorship.weeks.filter((wk: any) => wk.title && wk.title.trim() !== '').length > 0 && (
               <>
                 <p className="eyebrow" data-index="02" style={{ marginTop: '1.5rem' }}>Programme Schedule</p>
                 <h2>Syllabus Breakdown</h2>
@@ -108,32 +124,34 @@ export default function NewsDetailPage() {
           </div>
         </section>
 
-        <section className="section section--beige in-view">
-          <div className="container split">
-            <div>
-              <p className="eyebrow" data-index="03">Who it&#39;s for &amp; what you&#39;ll get</p>
-              <h2>Programme details</h2>
-              
-              {whoList.length > 0 && (
-                <>
-                  <p style={{ fontWeight: 600, color: 'var(--green-dark)', marginBottom: '.3rem' }}>Who is this for</p>
-                  <ul className="checklist">
-                    {whoList.map((li, i) => <li key={i}>{li}</li>)}
-                  </ul>
-                </>
-              )}
-              
-              {whatList.length > 0 && (
-                <>
-                  <p style={{ fontWeight: 600, color: 'var(--green-dark)', margin: '1rem 0 .3rem' }}>What you&#39;ll get</p>
-                  <ul className="checklist">
-                    {whatList.map((li, i) => <li key={i}>{li}</li>)}
-                  </ul>
-                </>
-              )}
+        {(whoList.length > 0 || whatList.length > 0) && (
+          <section className="section section--beige in-view">
+            <div className="container split">
+              <div>
+                <p className="eyebrow" data-index="03">Who it&#39;s for &amp; what you&#39;ll get</p>
+                <h2>Programme details</h2>
+                
+                {whoList.length > 0 && (
+                  <>
+                    <p style={{ fontWeight: 600, color: 'var(--green-dark)', marginBottom: '.3rem' }}>Who is this for</p>
+                    <ul className="checklist">
+                      {whoList.map((li, i) => <li key={i}>{li}</li>)}
+                    </ul>
+                  </>
+                )}
+                
+                {whatList.length > 0 && (
+                  <>
+                    <p style={{ fontWeight: 600, color: 'var(--green-dark)', margin: '1rem 0 .3rem' }}>What you&#39;ll get</p>
+                    <ul className="checklist">
+                      {whatList.map((li, i) => <li key={i}>{li}</li>)}
+                    </ul>
+                  </>
+                )}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         <GoogleFormModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} formUrl={mentorship.apply_link} />
       </main>
@@ -154,10 +172,10 @@ export default function NewsDetailPage() {
       <section className="section section--white in-view">
         <div className="container" style={{ maxWidth: '820px' }}>
           {item.image_url && (
-            <img src={item.image_url} alt={item.image_alt || item.title} style={{ width: '100%', height: 'auto', borderRadius: '20px', boxShadow: 'var(--shadow)', marginBottom: '2.5rem' }} />
+            <img src={item.image_url.startsWith('http') || item.image_url.startsWith('/') ? item.image_url : `/${item.image_url}`} alt={item.image_alt || item.title} style={{ width: '100%', height: 'auto', borderRadius: '20px', boxShadow: 'var(--shadow)', marginBottom: '2.5rem' }} />
           )}
           
-          <div className="article-body" dangerouslySetInnerHTML={{ __html: (item.body_content || '').replace(/&nbsp;/g, ' ') }} />
+          <div className="article-body" dangerouslySetInnerHTML={{ __html: cleanHtml(item.body_content) }} />
 
           <div style={{ marginTop: '2.5rem', paddingTop: '1.6rem', borderTop: '1px solid var(--rule)' }}>
             <div className="btn-row">
