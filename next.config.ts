@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     const isProd = process.env.NODE_ENV === "production";
     const workerUrl = isProd
       ? "https://bcl-website.oladeleomoyemi2002.workers.dev"
-      : "http://localhost:8787";
+      : "https://bcl-website.oladeleomoyemi2002.workers.dev";
 
     return [
       {

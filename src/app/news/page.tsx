@@ -7,6 +7,12 @@ export default function NewsPage() {
   const [newsItems, setNewsItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const getImageUrl = (url: string) => {
+    if (!url) return '';
+    if (url.startsWith('http')) return url;
+    return url.startsWith('/') ? url : `/${url}`;
+  };
+
   useEffect(() => {
     fetch('/api/news')
       .then(res => res.json())
@@ -42,7 +48,7 @@ export default function NewsPage() {
                 
                 return (
               <article key={item.slug} className="news-card" style={!item.image_url ? { display: 'flex', alignItems: 'center' } : undefined}>
-                {item.image_url && <img src={item.image_url.startsWith('http') || item.image_url.startsWith('/') ? item.image_url : `/${item.image_url}`} alt={item.image_alt || item.title} />}
+                {item.image_url && <img src={getImageUrl(item.image_url)} alt={item.image_alt || item.title} />}
                 <div className="body">
                   {item.kicker && <p className="kicker">{item.kicker}</p>}
                   <h3>{item.title}</h3>
